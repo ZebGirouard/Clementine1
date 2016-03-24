@@ -25,7 +25,6 @@ body {
 
 header {
 	color: #00BCD4;
-	height: 56px;
 	margin: 0 0 14px 0;
 	text-align: center;
 }
@@ -115,7 +114,8 @@ img {
 /****** Click Styling ******/
 
 .btn-container {	/* Styling for the div that contains the buttons */
-	margin: -10px auto 0 auto;
+	margin: 10px auto 0 auto;
+	padding: 10px;
 	text-align: center;
 }
 
@@ -149,6 +149,16 @@ img {
 
 #click-nbr {
 	font-weight: 400;
+}
+
+/* Text Box */
+.text-box {	/* Styling for buttons */
+	margin: 0 8px;
+	display: inline-block;
+	font-size: 14px;
+	border-radius: 3px;
+	padding: 10px 5px;
+	font-weight: 500;
 }
 
 /****** Profile Styling ******/
