@@ -23,7 +23,7 @@ body {
 	padding: 0;
 }
 
-header {
+header, footer {
 	color: #00BCD4;
 	margin: 0 0 14px 0;
 	text-align: center;
