@@ -38,6 +38,10 @@ p {
 	padding: 0;
 }
 
+h1 {
+	text-align: left;
+}
+
 /****** Header Styling ******/
 
 header p {
@@ -101,6 +105,7 @@ header a ~ p {
 img {
 	margin: 0 auto;
 	display: block;
+	border-radius: 5%;
 }
 
 .clementine-text { /* Styling for the Clementine.js text */
@@ -211,4 +216,18 @@ span {
 	color: #FFFFFF;
 	display: inline;
 	margin: 0;
+}
+
+/* Styling for Reviews */
+
+.review p {
+	font-style: italic;
+	text-align: left;
+	text-indent: 5px;
+}
+
+/* Stying for Tables */
+
+td {
+	border: 2px solid black;
 }

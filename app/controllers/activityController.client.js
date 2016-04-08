@@ -1,13 +1,44 @@
 'use strict';
 
 (function() {
-    var app = angular.module('nightlifeApp', ['ngResource', 'ngRoute', 'ngTable']);
-        app.controller('activityController', ['$scope', '$resource', '$route', '$routeParams', '$location', '$http', 'ngTableParams', function ($scope, $resource, $route, $routeParams, $location, $http, ngTableParams) {
+    var app = angular.module('nightlifeApp', ['ngTable']);
+    
+        app.factory("MyYelpAPI", function($http) {
+          function randomString(length, chars) {
+            var result = '';
+            for (var i = length; i > 0; --i) result += chars[Math.round(Math.random() * (chars.length - 1))];
+            return result;
+          }
+          
+          return {
+            "retrieveYelp": function(location, callback) {
+                var method = 'GET';
+                var url = 'https://api.yelp.com/v2/search';
+                var params = {
+                        callback: 'angular.callbacks._0',
+                        location: location,
+                        oauth_consumer_key: 'LgRfnUX5fUNhNL5a90m3Hg', //Consumer Key
+                        oauth_token: 'hSFDXjWZ--Zfoe1un9ryi2eFS1ZhZTgw', //Token
+                        oauth_signature_method: "HMAC-SHA1",
+                        oauth_timestamp: new Date().getTime(),
+                        oauth_nonce: randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'),
+                        category_filter: 'bars'
+                    };
+                var consumerSecret = '1FTuNUPFo_qMHhhwAouFBEorQJ4'; //Consumer Secret
+                var tokenSecret = 'CfbzR1348MtE7cLWLsl2Zly9Gdk'; //Token Secret
+                var signature = oauthSignature.generate(method, url, params, consumerSecret, tokenSecret, { encodeSignature: false});
+                params['oauth_signature'] = signature;
+                console.log(params);
+                $http.jsonp(url, {params: params}).success(callback);
+            }
+          };
+        });
+        
+        app.controller('activityController', ['$scope', '$http', 'MyYelpAPI', function ($scope, $http, MyYelpAPI) {
 
         //Handle GitHub Auth
+         $scope.loggedIn = false;
          var displayName = document.querySelector('#display-name');
-         var loggedInMenu = document.querySelector('.loggedInMenu');
-         var login = document.querySelector('.login');
          var apiUrl = '/api/:id';
       /*
          function updateHtmlElement (data, element, userProperty) {
@@ -21,18 +52,21 @@
          }).then(function successCallback(response) {
              var userObject = response.data;
              displayName.innerHTML = userObject['displayName'];
-             loggedInMenu.setAttribute("style", "display: default");
-             login.setAttribute("style", "display: none");
+             $scope.loggedIn = true;
            }, function errorCallback(response) {
              console.log(response);
            });
            
-            //Handle Yelp Activity Functionality
-            $scope.activity = "Test Activity";
-           
-            var self = this;
-            $scope.activities = [{venue: "Wonderbar", image: "Ooh, pretty picture."}];
-            self.tableParams = new ngTableParams({}, { dataset: $scope.activities});
+            //Get Venues from Yelp
+
+            $scope.getActivities = function(location) {
+                console.log("Looking for bars in " + location);
+                $scope.venues = [];
+                    MyYelpAPI.retrieveYelp(location, function(data) {
+                        $scope.venues = data.businesses;
+                        console.log($scope.venues);
+                    });
+            };
       }]);
             
             /*var Surveys = $resource('/api/{id}/surveys');
