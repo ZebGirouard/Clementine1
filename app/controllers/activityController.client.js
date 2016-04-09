@@ -39,7 +39,7 @@
         //Handle GitHub Auth
          $scope.loggedIn = false;
          var displayName = document.querySelector('#display-name');
-         var apiUrl = '/api/:id';
+         var apiUrl = '/api/user/:id';
       /*
          function updateHtmlElement (data, element, userProperty) {
             element.innerHTML = data[userProperty];
@@ -58,14 +58,19 @@
            });
            
             //Get Venues from Yelp
-
+            if (sessionStorage.venues) {
+                $scope.venues = JSON.parse(sessionStorage.venues);
+            }
+            else {
+                $scope.venues = [];
+            }
             $scope.getActivities = function(location) {
                 console.log("Looking for bars in " + location);
-                $scope.venues = [];
-                    MyYelpAPI.retrieveYelp(location, function(data) {
-                        $scope.venues = data.businesses;
-                        console.log($scope.venues);
-                    });
+                MyYelpAPI.retrieveYelp(location, function(data) {
+                    $scope.venues = data.businesses;
+                    sessionStorage.setItem('venues', JSON.stringify(data.businesses));
+                    console.log($scope.venues);
+                });
             };
       }]);
             

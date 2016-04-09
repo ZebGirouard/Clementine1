@@ -34,11 +34,12 @@
 				<input class="btn btn-add" type="submit" value="GO!">
 			</form>
 			<table ng-table="vm.tableParams" class="table btn-container">
-			    <tr ng-repeat="venue in venues" class="review">
+			    <tr ng-repeat="venue in venues track by $index" class="review">
 			        <td>
 			            <img ng-src="{{venue.image_url}}" alt="Venue Image">
 			        </td>
 			        <td>
+			        	<button ng-show="loggedIn">Going</button>
 			        	<h1>{{venue.name}}</h1>
 			        	<p>{{venue.snippet_text}}</p>
 			        </td>

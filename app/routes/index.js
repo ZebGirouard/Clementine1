@@ -26,7 +26,7 @@ module.exports = function (app, passport) {
 			res.redirect('/');
 		});
 
-	app.route('/api/:id')
+	app.route('/api/user/:id')
 		.get(isLoggedIn, function (req, res) {
 			res.json(req.user.github);
 		});
@@ -36,7 +36,8 @@ module.exports = function (app, passport) {
 
 	app.route('/auth/github/callback')
 		.get(passport.authenticate('github', {
-			successRedirect: '/',
-			failureRedirect: '/'
+			successRedirect : '/', // redirect back to the previous page
+        	failureRedirect : '/', // redirect back to the previous page
+        	failureFlash : true
 		}));
 };
