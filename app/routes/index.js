@@ -1,7 +1,7 @@
 'use strict';
 
 var path = process.cwd();
-var ClickHandler = require(path + '/app/controllers/activityHandler.server.js');
+var ActivityHandler = require(path + '/app/controllers/activityHandler.server.js');
 
 module.exports = function (app, passport) {
 
@@ -13,7 +13,7 @@ module.exports = function (app, passport) {
 		}
 	}
 
-	var clickHandler = new ClickHandler();
+	var activityHandler = new ActivityHandler();
 
 	app.route('/')
 		.get(function (req, res) {
@@ -30,7 +30,17 @@ module.exports = function (app, passport) {
 		.get(isLoggedIn, function (req, res) {
 			res.json(req.user.github);
 		});
+	
+	app.route('/api/venue/:id')
+		.get(activityHandler.getAttendees, function (req, res) {
+			res.json(req.user.github);
+		});
 
+	app.route('/api/attendee/:venueId/:userId')
+		.post(activityHandler.toggleAttendee, function (req, res) {
+			res.json(req.user.github);
+		});
+		
 	app.route('/auth/github')
 		.get(passport.authenticate('github'));
 

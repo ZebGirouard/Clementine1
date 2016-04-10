@@ -39,7 +39,7 @@
 			            <img ng-src="{{venue.image_url}}" alt="Venue Image">
 			        </td>
 			        <td>
-			        	<button ng-show="loggedIn">Going</button>
+			        	<button ng-show="loggedIn" ng-click="toggleAttendee(venue.id)">{{venue.attendees}} Going</button>
 			        	<h1>{{venue.name}}</h1>
 			        	<p>{{venue.snippet_text}}</p>
 			        </td>
